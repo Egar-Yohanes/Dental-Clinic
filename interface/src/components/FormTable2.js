@@ -42,7 +42,7 @@ const FormTable2 = () => {
                     dentistId
                 },
             });
-            Swal.fire("Good job!", "Task has been successfully added", "success");
+            Swal.fire("Task has been successfully added", "success");
             getAppointments();
         } catch (err) {
             console.log(err);
@@ -67,21 +67,30 @@ const FormTable2 = () => {
 
     const updateStatusHandler = async (id) => {
         try {
+            const inputOptions = new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve({
+                        'Approved': 'Approved',
+                        'In Progress': 'In Progress',
+                        'Done': 'Done',
+                        'Canceled': 'Cancelled',
+                    })
+                }, 1000)
+            })
+
             const { value: status } = await Swal.fire({
-                title: 'Appointment Status',
-                input: 'text',
-                inputLabel: 'In Progress, Approved, Cancelled, Done',
-                inputPlaceholder: 'Enter your Appointment Status',
-                showCancelButton: true,
+                title: 'Select Your Appointment Status',
+                input: 'radio',
+                inputOptions: inputOptions,
                 inputValidator: (value) => {
                     if (!value) {
-                        return 'Please enter your Appointment Status';
+                        return 'You need to choose your Appointment Status!'
                     }
                 }
             })
 
             if (status) {
-                updateStatusAppointments(id, status); // Pass the values here
+                updateStatusAppointments(id, status); 
                 Swal.fire("Updated!", "Your Appointment Status has been Updated.", "success!");
 
             }
