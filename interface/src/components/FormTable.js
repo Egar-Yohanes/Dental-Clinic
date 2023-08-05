@@ -11,8 +11,6 @@ const FormTable = () => {
     const [address, setAddress] = useState("");
     const [phone, setPhone] = useState("");
     const [birthdate, setBirthdate] = useState("");
-    const [editingPatient, setEditingPatient] = useState(null);
-    const [isEditing, setIsEditing] = useState(false);
 
     const getPatients = async () => {
         try {
@@ -21,7 +19,6 @@ const FormTable = () => {
                 url: `http://localhost:3000/patients`,
             });
 
-            //   console.log(todos.data);
             setPatients(patients.data);
         } catch (err) {
             console.log(err);
@@ -49,7 +46,6 @@ const FormTable = () => {
 
                 },
             });
-            // console.log(result);
             Swal.fire("Good job!", "Task has been successfully added", "success");
             getPatients();
         } catch (err) {
@@ -66,7 +62,7 @@ const FormTable = () => {
         try {
             await axios({
                 method: "delete",
-                url: `http://localhost:3000/patients/${id}`,
+                url: `http://localhost:3000/patients/delete/${id}`,
             });
             getPatients();
         } catch (err) {
@@ -83,30 +79,98 @@ const FormTable = () => {
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, delete it!",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                deletePatient(id);
-                Swal.fire("Deleted!", "Your file has been deleted.", "success");
-            }
-        });
+        })
+
+            .then((result) => {
+                if (result.isConfirmed) {
+                    deletePatient(id);
+                    Swal.fire("Deleted!", "Your file has been deleted.", "success");
+                }
+            });
     };
 
-    const updatePatients = async (id) => {
+    const updatePatients = async (id, name, address, phone, birthdate) => {
         try {
             await axios({
                 method: "put",
-                url: `http://localhost:3000/patients/${id}`,
+                url: `http://localhost:3000/patients/update/${id}`,
                 data: {
                     name,
                     address,
                     phone,
-                    birthdate
+                    birthdate,
                 },
             });
-            setIsEditing(false);
             getPatients();
         } catch (err) {
             console.log(err);
+        }
+    };
+
+
+    const updateHandler = async (id) => {
+        try {
+            const { value: name } = await Swal.fire({
+                title: 'Input your name',
+                input: 'text',
+                inputLabel: 'Your name',
+                inputPlaceholder: 'Enter your name',
+                showCancelButton: true,
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'Please enter your name';
+                    }
+                }
+            })
+
+            if (name) {
+                const { value: address } = await Swal.fire({
+                    title: 'Input your address',
+                    input: 'text',
+                    inputLabel: 'Your address',
+                    inputPlaceholder: 'Enter your address',
+                    showCancelButton: true,
+                    inputValidator: (value) => {
+                        if (!value) {
+                            return 'Please enter your address';
+                        }
+                    }
+                })
+
+                const { value: phone } = await Swal.fire({
+                    title: 'Input your phone number',
+                    input: 'tel',
+                    inputLabel: 'Your phone number',
+                    inputPlaceholder: 'Enter your phone number',
+                    showCancelButton: true,
+                    inputValidator: (value) => {
+                        if (!value) {
+                            return 'Please enter your phone number';
+                        }
+                    }
+                })
+
+                const { value: birthdate } = await Swal.fire({
+                    title: 'Input your birthdate',
+                    input: 'text',
+                    inputLabel: 'Your birthdate',
+                    inputPlaceholder: 'Enter your birthdate',
+                    showCancelButton: true,
+                    inputValidator: (value) => {
+                        if (!value) {
+                            return 'Please select your birthdate';
+                        }
+                    }
+                })
+
+                if (address && phone && birthdate) {
+                    updatePatients(id, name, address, phone, birthdate); // Pass the values here
+                    Swal.fire("Updated!", "Your Bio has been Updated.", "success!");
+
+                }
+            }
+        } catch (error) {
+            Swal.fire('Error', error.message, 'error');
         }
     };
 
@@ -192,6 +256,7 @@ const FormTable = () => {
                                 <th>Id</th>
                                 <th>Name</th>
                                 <th>Delete</th>
+                                <th>Update</th>
 
                             </tr>
                         </thead>
@@ -208,6 +273,15 @@ const FormTable = () => {
                                                     onClick={() => deleteHandler(id)}
                                                     className="btn btn-info btn-sm">
                                                     Delete
+                                                </button>
+                                                <td>
+                                                </td>
+                                            </td>
+                                            <td>
+                                                <button
+                                                    onClick={() => updateHandler(id)}
+                                                    className="btn btn-info btn-sm">
+                                                    Update
                                                 </button>
                                             </td>
                                         </tr>

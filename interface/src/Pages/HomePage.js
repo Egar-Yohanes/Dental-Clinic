@@ -7,12 +7,12 @@ import 'bootstrap/dist/js/bootstrap.js';
 const HomePage = () => {
     return (
         <>
-            <div class="mb-2">
+            <div className="mb-2">
                 <Navigasi> </Navigasi>
             </div>
 
             <div>
-                <img width="2000px" src="https://img.freepik.com/free-vector/flat-dental-clinic-twitter-header_23-2149333507.jpg" class="img-fluid" alt="banner" />
+                <img width="2000px" src="https://img.freepik.com/free-vector/flat-dental-clinic-twitter-header_23-2149333507.jpg" className="img-fluid" alt="banner" />
             </div>
 
             <Break />

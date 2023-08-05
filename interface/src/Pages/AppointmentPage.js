@@ -8,16 +8,16 @@ const AppointmentPage = () => {
     return (
 
         <>
-            <div class="mb-2">
+            <div className="mb-2">
                 <NavigasiAppointment />
             </div>
 
             <br/><br/>
 
-            <div class="container px-3 text-center">
-                <div class="row gx-5">
-                    <div class="col">
-                        <div class="p-3"><FormTable/></div>
+            <div className="container px-3 text-center">
+                <div className="row gx-5">
+                    <div className="col">
+                        <div className="p-3"><FormTable/></div>
                     </div>
                 </div>
             </div>
@@ -25,10 +25,10 @@ const AppointmentPage = () => {
             <hr/>
             <br/><br/>
 
-            <div class="container px-3 text-center">
-                <div class="row gx-5">
-                    <div class="col">
-                        <div class="p-3"><FormTable2/></div>
+            <div className="container px-3 text-center">
+                <div className="row gx-5">
+                    <div className="col">
+                        <div className="p-3"><FormTable2/></div>
                     </div>
                 </div>
             </div>

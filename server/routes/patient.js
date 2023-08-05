@@ -7,9 +7,9 @@ patientRoute.get('/account/:id', PatientController.findPatientsById)
 
 patientRoute.post("/add", PatientController.addPatients);
 
-patientRoute.get("/delete/:id", PatientController.deletePatients);
+patientRoute.delete("/delete/:id", PatientController.deletePatients);
 
-patientRoute.post("/update/:id", PatientController.updatePatients);
+patientRoute.put("/update/:id", PatientController.updatePatients);
 
 patientRoute.post("/login", PatientController.loginPatients);
 

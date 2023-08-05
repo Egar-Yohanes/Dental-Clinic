@@ -7,8 +7,8 @@ appointmentRoute.post('/add', AppointmentController.addAppointments)
 
 appointmentRoute.get('/find/:id', AppointmentController.findAppointmentsById)
 
-appointmentRoute.get("/delete/:id", AppointmentController.deleteAppointments);
+appointmentRoute.delete("/delete/:id", AppointmentController.deleteAppointments);
 
-appointmentRoute.post("/update/:id", AppointmentController.updateAppointments);
+appointmentRoute.put("/update/:id", AppointmentController.updateAppointments);
 
 module.exports = appointmentRoute

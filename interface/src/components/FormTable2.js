@@ -49,6 +49,49 @@ const FormTable2 = () => {
         }
     };
 
+    const updateStatusAppointments = async (id, status) => {
+        try {
+            await axios({
+                method: "put",
+                url: `http://localhost:3000/appointments/update/${id}`,
+                data: {
+                    status
+                },
+            });
+            getAppointments();
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+
+    const updateStatusHandler = async (id) => {
+        try {
+            const { value: status } = await Swal.fire({
+                title: 'Appointment Status',
+                input: 'text',
+                inputLabel: 'In Progress, Approved, Cancelled, Done',
+                inputPlaceholder: 'Enter your Appointment Status',
+                showCancelButton: true,
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'Please enter your Appointment Status';
+                    }
+                }
+            })
+
+            if (status) {
+                updateStatusAppointments(id, status); // Pass the values here
+                Swal.fire("Updated!", "Your Appointment Status has been Updated.", "success!");
+
+            }
+        }
+
+        catch (error) {
+            Swal.fire('Error', error.message, 'error');
+        }
+    };
+
     const submitHandler = (e) => {
         e.preventDefault();
         addAppointment();
@@ -56,11 +99,11 @@ const FormTable2 = () => {
 
     const deleteAppointment = async (id) => {
         try {
-            getAppointments();
             await axios({
                 method: "delete",
-                url: `http://localhost:3000/appointments/${id}`,
+                url: `http://localhost:3000/appointments/delete/${id}`,
             });
+            getAppointments();
         } catch (err) {
             console.log(err);
         }
@@ -159,9 +202,10 @@ const FormTable2 = () => {
                                 <th>Treatment</th>
                                 <th>Appointment Time</th>
                                 <th>Status</th>
+                                <th>Edit Status</th>
                                 <th>Patient ID</th>
                                 <th>Dentist ID</th>
-                                <th>Edit</th>
+                                <th>Delete List</th>
                             </tr>
                         </thead>
                         <tbody >
@@ -174,6 +218,9 @@ const FormTable2 = () => {
                                             <td>{treatment}</td>
                                             <td>{appointmentTime}</td>
                                             <td>{status}</td>
+                                            <td>
+                                                <button onClick={() => updateStatusHandler(id)} className="btn btn-danger btn-sm">update</button>
+                                            </td>
                                             <td>{patientId}</td>
                                             <td>{dentistId}</td>
                                             <td>
